@@ -1,1 +1,1 @@
-# betting-borgen-resources
+# Betting-Borgen Resources
