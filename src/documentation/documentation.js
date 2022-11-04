@@ -1,3 +1,3 @@
 export const documentation = {
-  message: 'The api-documentation.'
+  message: 'The api-documentation goes here.'
 }
