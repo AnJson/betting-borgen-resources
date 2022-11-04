@@ -29,5 +29,12 @@ export const connectDB = async () => {
   })
 
   // Connect to the server.
-  return mongoose.connect(process.env.DB_CONNECTION_STRING)
+  const connectionString = process.env.DB_CONNECTION_STRING.replace(
+    '{MDB_PASSWORD}',
+    process.env.MDB_PASSWORD
+  ).replace(
+    '{MDB_USER}',
+    process.env.MDB_USER
+  )
+  return mongoose.connect(connectionString)
 }
