@@ -1,16 +1,8 @@
-/**
- * Mongoose model Resource.
- *
- * @author Anders Jonsson
- * @version 1.0.0
- */
-
 import mongoose from 'mongoose'
 import validator from 'validator'
 
 const { isURL } = validator
 
-// Create a schema.
 const schema = new mongoose.Schema({
   imageUrl: {
     type: String,
@@ -68,4 +60,4 @@ schema.virtual('id').get(function () {
 })
 
 // Create a model using the schema.
-export const Resource = mongoose.model('Resource', schema)
+export const Competitions = mongoose.model('Competitions', schema)

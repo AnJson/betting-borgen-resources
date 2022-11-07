@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 
 /**
  * Middleware to authenticate jwt and set payload properties to request body.
- * Properties added to payload: { sub, username }
+ * Properties added to payload: { sub, username }.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -15,7 +15,7 @@ import jwt from 'jsonwebtoken'
  */
 export const authenticateJWT = async (req, res, next) => {
   try {
-    const accessToken = Buffer.from(process.env.ACCESS_TOKEN, 'base64') // Public key of jwt access token
+    const accessToken = Buffer.from(process.env.ACCESS_TOKEN_SECRET, 'base64')
     const [authenticationScheme, token] = req.headers.authorization?.split(' ')
 
     if (authenticationScheme !== 'Bearer') {
@@ -25,11 +25,7 @@ export const authenticateJWT = async (req, res, next) => {
     // Verify token.
     const payload = jwt.verify(token, accessToken)
 
-    // Bad practice to set role in jwt.
-    req.user = {
-      sub: payload.sub,
-      username: payload.username
-    }
+    req.uid = payload.sub
 
     next()
   } catch (error) {

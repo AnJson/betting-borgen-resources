@@ -1,14 +1,21 @@
 import createError from 'http-errors'
-import { Competitions } from '../models/competitions.js'
+import { Groups } from '../models/groups.js'
 
-export class CompetitionController {
-  // (GET /competitions).
+export class GroupsController {
+  // (GET /groups).
   async index (req, res, next) {
     try {
-      const { fields, sort, skip, limit, page, ...filter } = req.query
+      const { fields, sort, skip, limit } = req.query
 
+      const queryCopy = { ...req.query }
+      const excludedFields = ['fields', 'sort', 'skip', 'limit', 'page']
+      excludedFields.forEach(field => delete queryCopy[field])
+
+      let filterString = JSON.stringify(queryCopy)
+      filterString = filterString.replace(/\b(all|in)\b/g, match => `$${match}`)
+      const filter = JSON.parse(filterString)
       // Set up query with filters, sorting and pagination.
-      const query = Competitions
+      const query = Groups
         .find(filter)
         .select(fields ? fields.split(',').join(' ') : undefined)
         .sort(sort ? sort.split(',').join(' ') : '-createdAt')
@@ -26,7 +33,7 @@ export class CompetitionController {
     }
   }
 
-  // (POST /competitions).
+  // (POST /groups).
   async indexPost (req, res, next) {
     try {
       // TODO: implement.
@@ -43,8 +50,8 @@ export class CompetitionController {
     }
   }
 
-  // (GET /competitions/:id).
-  async competition (req, res, next) {
+  // (GET /groups/:id).
+  async group (req, res, next) {
     try {
       // TODO: Implement.
     } catch (error) {
@@ -52,8 +59,8 @@ export class CompetitionController {
     }
   }
 
-  // (PUT /competitions/:id).
-  async competitionPut (req, res, next) {
+  // (PUT /groups/:id).
+  async groupPut (req, res, next) {
     try {
       /* const competition = {
         title: req.body.title,
@@ -79,8 +86,8 @@ export class CompetitionController {
     }
   }
 
-  // (PATCH /competitions/:id).
-  async competitionPatch (req, res, next) {
+  // (PATCH /groups/:id).
+  async groupPatch (req, res, next) {
     try {
       // TODO: Implement finding and updating resource.
 
@@ -100,8 +107,8 @@ export class CompetitionController {
     }
   }
 
-  // (DELETE /competitions/:id).
-  async competitionDelete (req, res, next) {
+  // (DELETE /groups/:id).
+  async groupDelete (req, res, next) {
     try {
       // TODO: Implement finding and deleting resource.
       res
